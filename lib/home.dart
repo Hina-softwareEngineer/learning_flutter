@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'app.dart';
 
 class Home extends StatefulWidget {
   @override
@@ -9,13 +10,47 @@ class _HomeState extends State<Home> {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
-      body: Center(
-        child: ElevatedButton(child: Text("Press"), onPressed: (){},),
-        )
+      body: Column(
+        children: [
+          myOwnList(),
+          myOwnList(),
+          myOwnList(),
+        ],
+      ),
     );
   }
 }
 
+Widget myOwnList() {
+  return ListTile(
+      leading: CircleAvatar(
+        backgroundColor: Colors.blue,
+        radius: 30,
+      ),
+      title: Text('Hina'),
+      subtitle: Text("Hey What's Up?"),
+      trailing: Column(
+        mainAxisAlignment: MainAxisAlignment.spaceAround,
+        children: [
+          Text('4:25 PM'),
+          CircleAvatar(
+            backgroundColor: Colors.green,
+            radius: 5,
+          )
+        ],
+      ));
+}
+
+//  return Scaffold(
+//         body: Center(
+//       child: ElevatedButton(
+//         child: Text("Press"),
+//         onPressed: () {
+//           Navigator.push(
+//               context, MaterialPageRoute(builder: (context) => App()));
+//         },
+//       ),
+//     ));
 
 // body:Container(
 //         color: Colors.purple,
@@ -46,7 +81,7 @@ class _HomeState extends State<Home> {
 // return Scaffold(body: Center(
 //       child: Text('hello word',
 //       style : TextStyle(
-//         color: Colors.green, 
+//         color: Colors.green,
 //         fontSize: 50,
 //         fontWeight: FontWeight.bold,
 //       )
