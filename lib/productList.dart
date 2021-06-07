@@ -1,8 +1,9 @@
 import 'package:flutter/material.dart';
+import 'userProfile.dart';
 
 class ProductList extends StatelessWidget {
   // const ProductList({Key? key}) : super(key: key);
-  
+
   final List<Map<String, dynamic>> mobileData = [
     {
       'name': 'Iphone 12',
@@ -83,7 +84,7 @@ class ProductList extends StatelessWidget {
       body: ListView.builder(
         itemBuilder: (context, index) {
           var item = mobileData[index];
-          return ProductCard(item);
+          return ProductCard(item, context);
         },
         itemCount: mobileData.length,
       ),
@@ -91,79 +92,90 @@ class ProductList extends StatelessWidget {
   }
 }
 
-Widget ProductCard(Map<String, dynamic> item) {
-  return Card(
-    margin: EdgeInsets.fromLTRB(15, 10, 15, 10),
-    // color:  Colors.red,
-    child: Row(
-      children: [
-        Expanded(
-          child: Container(
-            margin: EdgeInsets.all(10),
-            height: 150,
-            decoration: BoxDecoration(
-                color: Colors.grey.shade300,
-                borderRadius: BorderRadius.circular(10),
-                image: DecorationImage(
-                    image: NetworkImage(item['image']), fit: BoxFit.cover)
+Widget ProductCard(Map<String, dynamic> item, context) {
+  return ElevatedButton(
+    onPressed: () {
+      Navigator.push(
+          context, MaterialPageRoute(builder: (context) => UserProfile()));
+    },
+    style: ElevatedButton.styleFrom(
+      primary: Colors.white,
+      onPrimary: Colors.grey.shade400,
+      onSurface: Colors.grey.shade50,
+    ),
+    child: Card(
+      margin: EdgeInsets.fromLTRB(15, 10, 15, 10),
+      color: Colors.transparent,
+      shadowColor: Colors.white24,
+      child: Row(
+        children: [
+          Expanded(
+            child: Container(
+              margin: EdgeInsets.all(10),
+              height: 150,
+              decoration: BoxDecoration(
+                  color: Colors.grey.shade300,
+                  borderRadius: BorderRadius.circular(10),
+                  image: DecorationImage(
+                      image: NetworkImage(item['image']), fit: BoxFit.cover)),
             ),
+            flex: 2,
           ),
-          flex: 2,
-        ),
-        Expanded(
-          child: Container(
-            height: 150,
-            margin: EdgeInsets.fromLTRB(10, 15, 10, 15),
-            //  color: Colors.green,
-            child: Column(
-              children: [
-                Text(
-                  item['name'],
-                  style: TextStyle(fontSize: 20, fontWeight: FontWeight.bold),
-                ),
-                Row(
-                  children: [
-                    Icon(
-                      Icons.star,
-                      size: 18,
-                      color: Colors.yellowAccent.shade700,
-                    ),
-                    SizedBox(
-                      width: 2,
-                    ),
-                    Text("${item['rating']}  ",
+          Expanded(
+            child: Container(
+              height: 150,
+              margin: EdgeInsets.fromLTRB(10, 15, 10, 15),
+              color: Colors.transparent,
+              child: Column(
+                children: [
+                  Text(
+                    item['name'],
+                    style: TextStyle(fontSize: 20, fontWeight: FontWeight.bold),
+                  ),
+                  Row(
+                    children: [
+                      Icon(
+                        Icons.star,
+                        size: 18,
+                        color: Colors.yellowAccent.shade700,
+                      ),
+                      SizedBox(
+                        width: 2,
+                      ),
+                      Text("${item['rating']}  ",
+                          style: TextStyle(
+                              fontSize: 14, color: Colors.grey.shade700)),
+                      Text("(${item['reviews']} Review)",
+                          style: TextStyle(
+                              fontSize: 14, color: Colors.grey.shade700))
+                    ],
+                    crossAxisAlignment: CrossAxisAlignment.center,
+                  ),
+                  Row(
+                    children: [
+                      Text("${item['pieces']} Pieces"),
+                      SizedBox(width: 20),
+                      Text(
+                        "\$${item['price']}",
                         style: TextStyle(
-                            fontSize: 14, color: Colors.grey.shade700)),
-                    Text("(${item['reviews']} Review)",
-                        style: TextStyle(
-                            fontSize: 14, color: Colors.grey.shade700))
-                  ],
-                  crossAxisAlignment: CrossAxisAlignment.center,
-                ),
-                Row(
-                  children: [
-                    Text("${item['pieces']} Pieces"),
-                    SizedBox(width: 20),
-                    Text(
-                      "\$${item['price']}",
-                      style: TextStyle(
-                          color: Colors.purple.shade800,
-                          fontSize: 18,
-                          fontWeight: FontWeight.bold),
-                    )
-                  ],
-                ),
-                Row(
-                  children: [Text("Quantity: ${item['quantity']}")],
-                )
-              ],
-              mainAxisAlignment: MainAxisAlignment.spaceBetween,
-              crossAxisAlignment: CrossAxisAlignment.start,
+                            color: Colors.purple.shade800,
+                            fontSize: 18,
+                            fontWeight: FontWeight.bold),
+                      )
+                    ],
+                  ),
+                  Row(
+                    children: [Text("Quantity: ${item['quantity']}")],
+                  )
+                ],
+                mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                crossAxisAlignment: CrossAxisAlignment.start,
+              ),
             ),
-          ),
-          flex: 2,
-        )
-      ],
+            flex: 2,
+          )
+        ],
+      ),
     ),
   );
 }
