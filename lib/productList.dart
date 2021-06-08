@@ -61,17 +61,16 @@ class ProductList extends StatelessWidget {
   Widget build(BuildContext context) {
     return Scaffold(
       appBar: AppBar(
-        title: Center(
-          child: Text(
+        centerTitle:  true,
+        title:  Text(
             "Ecomm App Ui",
             style: TextStyle(
               color: Colors.black,
               fontWeight: FontWeight.w900,
             ),
-          ),
         ),
+        iconTheme: IconThemeData(color: Colors.black),
         backgroundColor: Colors.white,
-        actionsIconTheme: IconThemeData(color: Colors.black),
         actions: <Widget>[
           IconButton(
               onPressed: () {},
