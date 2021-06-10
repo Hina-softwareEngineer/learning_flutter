@@ -1,5 +1,5 @@
 import 'package:flutter/material.dart';
-import 'productList.dart';
+import 'widgets.dart';
 
 
 void main() {
@@ -12,7 +12,7 @@ class MyApp extends StatelessWidget {
   Widget build(BuildContext context) {
     return MaterialApp(
       debugShowCheckedModeBanner: false,
-      home: ProductList(),
+      home: AdvancedWidgets() ,
     );
   }
 }
