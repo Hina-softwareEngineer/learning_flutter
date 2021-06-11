@@ -1,6 +1,10 @@
-# flutter_learn
+# ✨ flutter_learn
 
-A new Flutter project.
+A new Flutter project which includes my flutter learning in branches.
+
+###### 🔥 1st Assignment : https://i.imgur.com/zXHarbs.png
+
+###### 🔥 3rd Assignment : https://hina-softwareengineer.github.io/flutter-assignment-3/#/
 
 ## Getting Started
 
