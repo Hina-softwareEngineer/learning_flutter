@@ -1,81 +1,100 @@
 import 'package:flutter/material.dart';
+import 'package:math_expressions/math_expressions.dart';
 
-class Home extends StatefulWidget {
-  // const Home({ Key? key }) : super(key: key);
+class Calculator extends StatefulWidget {
+  // const Calculator({ Key? key }) : super(key: key);
 
   @override
-  _HomeState createState() => _HomeState();
+  _CalculatorState createState() => _CalculatorState();
 }
 
-class _HomeState extends State<Home> {
-  List<dynamic> lst = [1, 2, 3, 4, 5, 6, 7, 8, 9];
+class _CalculatorState extends State<Calculator> {
+  dynamic result = '';
+
+  Widget Button(dynamic value) {
+    return ElevatedButton(
+        onPressed: () {
+          setState(() {
+            result = result + '$value';
+          });
+        },
+        child: Text('$value'));
+  }
+
+  clear() {
+    setState(() {
+      result = '';
+    });
+  }
+
+  output() {
+    Parser p = Parser();
+    print(p);
+    Expression exp = p.parse(result);
+    print("---------$exp");
+    ContextModel contextModal = ContextModel();
+    print("----contex modal-----$contextModal");
+    double eval = exp.evaluate(EvaluationType.REAL, contextModal);
+    print("----eval-----$eval");
+
+    setState(() {
+      result = '$eval';
+    });
+  }
 
   @override
   Widget build(BuildContext context) {
     return Scaffold(
-      body: SingleChildScrollView(
-        child: Column(
+        body: Column(
+      children: [
+        SizedBox(height: 130),
+        Text(result,
+            style: TextStyle(
+              fontSize: 30,
+              fontWeight: FontWeight.bold,
+            )),
+        SizedBox(height: 20),
+        Row(
+          mainAxisAlignment: MainAxisAlignment.spaceAround,
           children: [
-            Container(
-              height: 210,
-              width: 200,
-              color: Colors.green,
-              margin: EdgeInsets.only(top: 10),
-            ),
-            Container(
-              height: 210,
-              width: 200,
-              color: Colors.green,
-              margin: EdgeInsets.only(top: 10),
-            ),
-            Container(
-              height: 210,
-              width: 200,
-              color: Colors.green,
-              margin: EdgeInsets.only(top: 10),
-            ),
-            Container(
-              height: 210,
-              width: 200,
-              color: Colors.green,
-              margin: EdgeInsets.only(top: 10),
-            ),
-            Container(
-              height: 210,
-              width: 200,
-              color: Colors.green,
-              margin: EdgeInsets.only(top: 10),
-            ),
-            GridView.count(
-              physics: NeverScrollableScrollPhysics(),
-              shrinkWrap: true,
-              crossAxisCount: 2,
-              crossAxisSpacing: 20,
-              mainAxisSpacing: 20,
-              children: List.generate(lst.length, (index) {
-                return Container(
-                  child: Text('${lst[index]}'),
-                  color: Colors.lightBlue,
-                );
-              }),
-            )
+            Button(1),
+            Button(2),
+            Button(3),
+            Button(4),
           ],
         ),
-      ),
-    );
+        SizedBox(height: 20),
+        Row(
+          mainAxisAlignment: MainAxisAlignment.spaceAround,
+          children: [
+            Button(5),
+            Button(6),
+            Button(7),
+            Button(8),
+          ],
+        ),
+        SizedBox(height: 20),
+        Row(
+          mainAxisAlignment: MainAxisAlignment.spaceAround,
+          children: [
+            Button(9),
+            Button(0),
+            ElevatedButton(onPressed: clear, child: Text("Clear")),
+            ElevatedButton(onPressed: output, child: Text("=")),
+            Button('.'),
+          ],
+        ),
+        SizedBox(height: 20),
+        Row(
+          mainAxisAlignment: MainAxisAlignment.spaceAround,
+          children: [
+            Button('+'),
+            Button('-'),
+            Button('*'),
+            Button('/'),
+          ],
+        )
+      ],
+    ));
   }
 }
-
-/*
-child: ListView(
-                scrollDirection: Axis.horizontal,
-                // physics: NeverScrollableScrollPhysics(),
-                shrinkWrap: true,
-                children:[
-                  Container(child: Text("Hello"),color: Colors.red, width: 200,height: 200,margin:EdgeInsets.only(top: 10)),
-                  Container(child: Text("Hello"),color: Colors.red, width: 200,height: 200,margin:EdgeInsets.only(top: 10)),
-                  Container(child: Text("Hello"),color: Colors.red, width: 200,height: 200,margin:EdgeInsets.only(top: 10)),
-                  Container(child: Text("Hello"),color: Colors.red, width: 200,height: 200,margin:EdgeInsets.only(top: 10))
-                ]
-              ),
-              */
