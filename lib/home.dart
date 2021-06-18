@@ -1,96 +1,113 @@
 import 'package:flutter/material.dart';
 import 'package:math_expressions/math_expressions.dart';
 
-class Calculator extends StatefulWidget {
-  // const Calculator({ Key? key }) : super(key: key);
+class TodoApp extends StatefulWidget {
+  // const TodoApp({Key? key}) : super(key: key);
 
   @override
-  _CalculatorState createState() => _CalculatorState();
+  _TodoAppState createState() => _TodoAppState();
 }
 
-class _CalculatorState extends State<Calculator> {
-  dynamic result = '';
+class _TodoAppState extends State<TodoApp> {
+  List<dynamic> lst = [1, 2, 3];
 
-  Widget Button(dynamic value) {
-    return ElevatedButton(
-        onPressed: () {
-          setState(() {
-            result = result + '$value';
-          });
-        },
-        child: Text('$value'));
-  }
-
-  clear() {
-    setState(() {
-      result = '';
-    });
-  }
-
-  output() {
-    Parser p = Parser();
-    Expression exp = p.parse(result);
-    ContextModel contextModal = ContextModel();
-    double eval = exp.evaluate(EvaluationType.REAL, contextModal);
-
-    setState(() {
-      result = '$eval';
-    });
-  }
+  String output = '';
+  // print(output);
 
   @override
   Widget build(BuildContext context) {
     return Scaffold(
-        body: Column(
-      children: [
-        SizedBox(height: 130),
-        Text(result,
-            style: TextStyle(
-              fontSize: 30,
-              fontWeight: FontWeight.bold,
-            )),
-        SizedBox(height: 20),
-        Row(
-          mainAxisAlignment: MainAxisAlignment.spaceAround,
-          children: [
-            Button(1),
-            Button(2),
-            Button(3),
-            Button(4),
-          ],
-        ),
-        SizedBox(height: 20),
-        Row(
-          mainAxisAlignment: MainAxisAlignment.spaceAround,
-          children: [
-            Button(5),
-            Button(6),
-            Button(7),
-            Button(8),
-          ],
-        ),
-        SizedBox(height: 20),
-        Row(
-          mainAxisAlignment: MainAxisAlignment.spaceAround,
-          children: [
-            Button(9),
-            Button(0),
-            ElevatedButton(onPressed: clear, child: Text("Clear")),
-            ElevatedButton(onPressed: output, child: Text("=")),
-            Button('.'),
-          ],
-        ),
-        SizedBox(height: 20),
-        Row(
-          mainAxisAlignment: MainAxisAlignment.spaceAround,
-          children: [
-            Button('+'),
-            Button('-'),
-            Button('*'),
-            Button('/'),
-          ],
-        )
-      ],
-    ));
+      body: ListView.builder(
+          itemBuilder: (context, index) {
+            return Container(
+                child: ListTile(
+                  title: Text("${lst[index]}"),
+                  trailing: Container(
+                    width: 50,
+                    child: Row(
+                      children: [
+                        GestureDetector(
+                          child: Icon(Icons.edit, color: Colors.red),
+                          onTap: () {
+                            TextEditingController _controller =
+                                TextEditingController();
+                            _controller.value = _controller.value.copyWith(
+                              text: '${lst[index]}',
+                            );
+                            showDialog(
+                                context: context,
+                                builder: (context) {
+                                  return AlertDialog(
+                                    title: Text('Edit Text'),
+                                    content: TextField(
+                                      controller: _controller,
+                                      onChanged: (value) {
+                                        // print(output);
+                                        output = value;
+                                      },
+                                    ),
+                                    actions: [
+                                      ElevatedButton(
+                                          onPressed: () {
+                                            // print(output);
+                                            setState(() {
+                                              lst.replaceRange(
+                                                  index, index + 1, {output});
+                                            });
+                                            Navigator.of(context).pop();
+                                          },
+                                          child: Text("Edit"))
+                                    ],
+                                  );
+                                });
+                          },
+                        ),
+                        GestureDetector(
+                          child: Icon(Icons.delete, color: Colors.red),
+                          onTap: () {
+                            setState(() {
+                              lst.removeAt(index);
+                            });
+                          },
+                        ),
+                      ],
+                    ),
+                  ),
+                ),
+                height: 50,
+                color: Colors.amber,
+                margin: EdgeInsets.only(top: 40));
+          },
+          itemCount: lst.length),
+      floatingActionButton: FloatingActionButton(
+        onPressed: () {
+          showDialog(
+              context: context,
+              builder: (context) {
+                return AlertDialog(
+                  title: Text('Add Text'),
+                  content: TextField(
+                    onChanged: (value) {
+                      // print(output);
+                      output = value;
+                    },
+                  ),
+                  actions: [
+                    ElevatedButton(
+                        onPressed: () {
+                          // print(output);
+                          setState(() {
+                            lst.add(output);
+                          });
+                          Navigator.of(context).pop();
+                        },
+                        child: Text("Add"))
+                  ],
+                );
+              });
+        },
+        child: Text("Add"),
+      ),
+    );
   }
 }
