@@ -29,13 +29,9 @@ class _CalculatorState extends State<Calculator> {
 
   output() {
     Parser p = Parser();
-    print(p);
     Expression exp = p.parse(result);
-    print("---------$exp");
     ContextModel contextModal = ContextModel();
-    print("----contex modal-----$contextModal");
     double eval = exp.evaluate(EvaluationType.REAL, contextModal);
-    print("----eval-----$eval");
 
     setState(() {
       result = '$eval';
